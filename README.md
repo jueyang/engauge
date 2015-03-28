@@ -10,10 +10,10 @@ Law-lert gives activists, journalists, and concerned citizens a simple way to tr
 
 # Team
 
-John Campbell
-Mario DeLaPaz
-Simon Galperin
-Jose Gonzalez
-Emily Olshefski
-Sean Sullivan
-@jueyang
+- John Campbell
+- Mario DeLaPaz
+- Simon Galperin
+- Jose Gonzalez
+- Emily Olshefski
+- Sean Sullivan
+- @jueyang
