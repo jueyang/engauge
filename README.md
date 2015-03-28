@@ -1,6 +1,6 @@
 # Lawlert
 
-Democritizing law-making.
+Democratzing law-making
 
 This is a prototype developed for [Hack NJ 2.0](http://www.hackjersey.com/)
 
