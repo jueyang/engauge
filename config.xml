@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.example.hello" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Lawlert</name>
+    <description>
+        Democratizing Lawmaking
+    </description>
+    <author email="" href="https://hackjersey2.hackpad.com/Law-lert-MviUHPLW7bh">
+        Yellow Smiley at Hack NJ 2.0
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+</widget>
