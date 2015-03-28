@@ -2,7 +2,7 @@
 <widget id="com.example.hello" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Lawlert</name>
     <description>
-        Democratizing Lawmaking
+        Democratizing Lawmaking. Law-lert gives activists, journalists, and concerned citizens a simple way to track and vote on legislation being introduced in their state. Users select categories to follow (public safety, transportation, housing, etc.) and receive short tweetable updates when bills are introduced, sent to committee, or sent to the governor. 
     </description>
     <author email="" href="https://hackjersey2.hackpad.com/Law-lert-MviUHPLW7bh">
         Yellow Smiley at Hack NJ 2.0

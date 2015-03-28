@@ -14,12 +14,12 @@
     <feature name="LocalStorage">
         <param name="ios-package" value="CDVLocalStorage" />
     </feature>
-    <name>HelloWorld</name>
+    <name>Lawlert</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+        Democratizing Lawmaking. Law-lert gives activists, journalists, and concerned citizens a simple way to track and vote on legislation being introduced in their state. Users select categories to follow (public safety, transportation, housing, etc.) and receive short tweetable updates when bills are introduced, sent to committee, or sent to the governor. 
     </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
+    <author email="" href="https://hackjersey2.hackpad.com/Law-lert-MviUHPLW7bh">
+        Yellow Smiley at Hack NJ 2.0
     </author>
     <content src="index.html" />
     <access origin="*" />
