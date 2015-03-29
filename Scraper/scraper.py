@@ -95,27 +95,29 @@ def getBillHtml(billNum):
     return htmlLst
 
 def getBillUrlLst(htmlList):
-    billURLList = []        
+    billURLList = []
+    firstHtml = True
     for i in htmlList:
         exists = i.find("/2014/Bills/")
         if exists != -1:
             idxofBeg = i.find("\"")+1
             idxofEnd = i.rfind("\"")
             tmp = i[idxofBeg:idxofEnd]
-            if tmp.endswith(".PDF") == False:
+            if tmp.endswith(".PDF") == False and firstHtml == True:
                 billURLList.append(tmp)
+                firstHtml = False
+                continue
     return billURLList
 
 execfile("tokenize_bill_contents.py")
 
 if __name__ == '__main__':
-    
     #total bills for that category
     totalBills = []
     
     categoryItems = categories.items()
     for c in categoryItems:
-        print(c[0])
+        #print(c[0])
         htmlLst = getCategoryHtml(c[0])
         billNumLst = getBillNumLst(htmlLst)
         cate = [c[1]]
@@ -124,10 +126,9 @@ if __name__ == '__main__':
             billHLst = getBillHtml(b)
             billUrlLst = getBillUrlLst(billHLst)
             totalBills.append(billUrlLst)
-    
+
     with open("table_data.txt", "w") as f:
         for i in totalBills:
-            print(i)
             if  len(i)>0 and i[0].endswith(".HTM")== True:
                 tmpi = ''.join(i)
                 tmpLst = grabMeasure(tmpi)
