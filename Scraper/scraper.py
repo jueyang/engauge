@@ -1,5 +1,52 @@
-categories=["EDUCATION", "CURRICULA", "ENVIRONMENT"]
+categories = {'EMERG MGMT': 'PUBLIC SAFETY - EMERGENCY MANAGEMENT',
+              'HEALTH PROF': 'HEALTH - PROFESSIONALS',
+              'SCH FACILITI': 'EDUCATION - SCHOOL FACILITIES',
+              'PENSIONS TEA': 'PENSIONS - TEACHERS',
+              'FISH': 'ENVIRONMENT - FISH AND WILDLIFE',
+              'TEMP DISAB': 'LABOR - TEMPORARY DISABILITY',
+              'HEALTH FAC': 'HEALTH - FACILITIES',
+              'LABOR': 'LABOR',
+              'ENVIRONMENT': 'ENVIRONMENT',
+              'SITE REMED': 'ENVIRONMENT - SITE REMEDIATION AND BROWNFIELDS',
+              'HOUSING FIN': 'HOUSING - FINANCE',
+              'EMER SVCS': 'HEALTH - EMERGENCY MEDICAL SERVICES',
+              'ED HEALTH': 'EDUCATION - HEALTH',
+              'POLLUTION': 'ENVIRONMENT - AIR, NOISE AND WATER POLLUTION',
+              'INCOME TAX': 'TAXATION - PERSONAL INCOME TAX',
+              'BUS TAXES': 'TAXATION - BUSINESS TAXES',
+              'CRIME VICTIM': 'CRIME VICTIMS',
+              'HEALTH FINAN': 'HEALTH - FINANCE',
+              'PENSIONS POL': 'PENSIONS - POLICE AND FIREFIGHTERS',
+              'PUB SAFETY': 'PUBLIC SAFETY',
+              'CRIM PROCED': 'CRIMINAL PROCEDURES',
+              'TRANS PLAN': 'TRANSPORTATION - PLANNING, FINANCE AND ECONOMIC DEVELOPMENT',
+              'SALES TAX': 'TAXATION - SALES TAX',
+              'OPEN SPACE': 'ENVIRONMENT - PARKS, FORESTS AND OPEN SPACE',
+              'SCH TRANS': 'EDUCATION - SCHOOL TRANSPORTATION',
+              'TEACHERS': 'EDUCATION - TEACHERS AND SCHOOL EMPLOYEES',
+              'LANDLORD': 'HOUSING - LANDLORD AND TENANT',
+              'HOMELAND SEC': 'PUBLIC SAFETY - HOMELAND SECURITY',
+              'FREIGHT RAIL': 'TRANSPORTATION - FREIGHT RAIL',
+              'WASTEWATER': 'ENVIRONMENT - WASTEWATER AND STORMWATER', 'BEACHES': 'ENVIRONMENT - BEACHES AND SHORES',
+              'PUB UTIL TAX': 'TAXATION - PUBLIC UTILITIES TAX', 'HIGHLANDS': 'ENVIRONMENT - HIGHLANDS AND PINELANDS',
+              'TAXATION': 'TAXATION', 'ALCO TAXES': 'TAXATION - ALCOHOL, GASOLINE AND TOBACCO TAXES', 'POLICE': 'PUBLIC SAFETY - POLICE',
+              'FIREFIGHTERS': 'PUBLIC SAFETY - FIREFIGHTERS', 'CRIMES': 'CRIMES AND PENALTIES', 'DISEASE': 'HEALTH - DISEASE',
+              'HOUSING': 'HOUSING', 'CONSTR CODES': 'HOUSING - CONSTRUCTION CODES', 'WEAPONS': 'PUBLIC SAFETY - WEAPONS',
+              'FLOOD': 'ENVIRONMENT - FLOODING, DAMS AND LAKES', 'AFFORD HOUS': 'HOUSING - AFFORDABLE HOUSING',
+              'CURRICULA': 'EDUCATION - CURRICULA', 'SOLID WASTE': 'ENVIRONMENT - SOLID WASTE AND RECYCLING',
+              'SEX OFFEND': 'PUBLIC SAFETY - SEX OFFENDERS', 'HOTELS': 'HOUSING - HOTELS AND MULTIPLE DWELLINGS',
+              'PROPERTY TAX': 'TAXATION - PROPERTY TAX', 'HIGHWAYS': 'TRANSPORTATION - HIGHWAYS, ROADS AND BRIDGES',
+              'WORKERS COMP': 'LABOR - WORKERS COMPENSATION', 'EDUC FINANCE': 'EDUCATION - FINANCE',
+              'HAZ SUBSTANC': 'ENVIRONMENT - HAZARDOUS AND TOXIC SUBSTANCES', 'SCH BOARDS': 'EDUCATION - SCHOOL BOARDS AND DISTRICTS',
+              'CONDOS': 'HOUSING - CONDOMINIUMS, COOPERATIVES AND MOBILE HOMES', 'UNEMPL COMP': 'LABOR - UNEMPLOYMENT COMPENSATION',
+              'PHARMACEUTIC': 'HEALTH - PHARMACEUTICALS', 'PENSIONS': 'PENSIONS', 'WATER SUPPLY': 'ENVIRONMENT - WATER SUPPLY',
+              'PENSIONS PUB': 'PENSIONS - PUBLIC EMPLOYEES', 'HEALTH': 'HEALTH', 'PAAD': 'HEALTH - PAAD AND SENIOR GOLD',
+              'PUBLIC TRANS': 'TRANSPORTATION - PUBLIC TRANSIT', 'WAGES': 'LABOR - WAGES AND BENEFITS',
+              'EDUCATION': 'EDUCATION',
+              'TRANSPORT': 'TRANSPORTATION'}
 
+#!/usr/bin/python
+import MySQLdb
 import json
 import urllib
 import urllib2
@@ -53,21 +100,48 @@ def getBillUrlLst(htmlList):
             idxofEnd = i.rfind("\"")
             tmp = i[idxofBeg:idxofEnd]
             if tmp.endswith(".PDF") == False:
-                tmp = "http://www.njleg.state.nj.us"+tmp
                 billURLList.append(tmp)
     return billURLList
 
+execfile("tokenize_bill_contents.py")
+
 if __name__ == '__main__':
+    
     #total bills for that category
     totalBills = []
-
-    for c in categories:
-        htmlLst = getCategoryHtml(c)
+    '''
+    categoryItems = categories.items()
+    for c in categoryItems:
+        print(c[0])
+        htmlLst = getCategoryHtml(c[0])
         billNumLst = getBillNumLst(htmlLst)
-        totalBills.append("Start Category Bill URLs")
         for b in billNumLst:
             billHLst = getBillHtml(b)
             billUrlLst = getBillUrlLst(billHLst)
             totalBills.append(billUrlLst)
-    for t in totalBills:
-        print(t)
+    '''
+    totalBills.append("/2014/Bills/A0500/232_I1.HTM")
+    totalBills.append("/2014/Bills/A0500/134_I1.HTM")
+    cat = [9,6]
+    
+    with open("table_data.html", "w") as f:
+        count = 0
+        for i in totalBills:
+            tmpi = str(i)
+            tmpLst = grabMeasure(tmpi)
+            db = MySQLdb.connect(
+            host="localhost", # your host, usually localhost
+            user="root", # your username
+            passwd="engauge", # your password
+            db="HackJersey") # name of the data base
+            # you must create a Cursor object. It will let
+            #  you execute all the queries you need
+            cur = db.cursor() 
+            # Use all the SQL you like
+            cur.execute("INSERT INTO `Bill`(`B_ID`,`billNumber`,`billName`,`synopsis`,`link`,`primarySponsor`,`categoryID`,`sponsorDistrict`)Values (null,'"+tmpLst[0]+"','"+tmpLst[1]+"','"+tmpLst[5]+"','"+str(cat[count])+"','"+tmpLst[3]+"')")
+            count = count +1
+            Str1 = '-'.join(tmpLst)
+            f.write(Str1)
+
+    
+    
