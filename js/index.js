@@ -48,18 +48,14 @@ var app = {
 
         console.log('Received Event: ' + id);
     },
-    changeScreen: function() {
-        // select the anchor clicked on
-        // go to the parent screen, fadeout
-        // go to the next screen, fadein
-    },
-    onSignin: function() {
+    onSignin: function(event) {
         // get category list from the server
         var request = new XMLHttpRequest();
         request.open('GET', '../temp-cat.json', true);
 
         request.onload = function(error) {
             if (request.status >= 200 && request.status < 400) {
+
                 // Success
                 var data = JSON.parse(request.responseText),
                     categoryList = document.getElementById('category-list'),
@@ -120,7 +116,7 @@ var app = {
 
         var request = new XMLHttpRequest();
 
-        request.open('POST', '/', true); // url will be replaced by the server ping
+        request.open('POST', '/my/url', true); // url will be replaced by the server ping
 
         request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
         request.send(outputs);

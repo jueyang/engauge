@@ -51,7 +51,13 @@
             <section class="screen">
                 <p>We will notify you when a new bill is posted in your areas of interest. Please select a few: </p>
                 <ul id="category-list" >
-                    <!-- populated by category JSON -->
+                    <li><input type='checkbox' id='0'>HEALTH</li>
+                    <li><input type='checkbox' id='0'>EDUCATION</li>
+                    <li><input type='checkbox' id='0'>PENSIONS</li>
+                    <li><input type='checkbox' id='0'>ENVIRONMENT</li>
+                    <li><input type='checkbox' id='0'>TAXATION</li>
+                    <li><input type='checkbox' id='0'>CRIME VICTIMS</li>
+                    <li><input type='checkbox' id='0'>TRANSPORTATION</li>
                 </ul>
                 <a id="subscribe" href="#" class="pure-button pure-button-primary">Done</a>
             </section>
@@ -59,10 +65,45 @@
             <!-- load the entries to subscribed content -->
             <section class="screen">
                 <ul class="bills">
-                    <!-- populated by the bill JSON -->
-                    <li>
-                        <h2>Name of the bill</h2>
-                        <p>Bill content</p>
+                    <li class="bill">
+                        <h2>
+                            <a href='http://www.njleg.state.nj.us/2014/Bills/A0500/430_I1.HTM'>
+                            A2866
+                            <span class="bill-category">Education</span>
+                            </a>
+                        </h2>
+                        <p class="legislator">Angelica M. Jimenez (D32)</p>
+                        <p class="bill-content">Provides for school and medical family leave</p>
+                    </li>
+                    <li class="bill">
+                        <h2>
+                            <a href='http://www.njleg.state.nj.us/2014/Bills/A0500/430_I1.HTM'>
+                            A101
+                            <span class="bill-category">Labor</span>
+                            </a>
+                        </h2>
+                        <p class="legislator">Alison Littell McHose</p>
+                        <p class="bill-content">“New Jersey Jobs Protection Act;” requires verification of employment.</p>
+                    </li>
+                    <li class="bill">
+                        <h2>
+                            <a href='http://www.njleg.state.nj.us/2014/Bills/A0500/430_I1.HTM'>
+                            A363
+                            <span class="bill-category">Education</span>
+                            </a>
+                        </h2>
+                        <p class="legislator">Ralph R. Caputo</p>
+                        <p class="bill-content">Establishes the Office of Dropout Prevention and Reengagement of Out-of-School Youth in DOE, and the Student Dropout Prevention Task Force.</p>
+                    </li>
+                    <li class="bill">
+                        <h2>
+                            <a href='http://www.njleg.state.nj.us/2014/Bills/A1500/1202_I1.HTM'>
+                            A1202
+                            <span class="bill-category">Education</span>
+                            </a>
+                        </h2>
+                        <p class="legislator">David Wolfe</p>
+                        <p class="bill-content">Prohibits sale, distribution, and use of urea as an ice melt</p>
                     </li>
                 </ul>
             </section>
@@ -70,11 +111,11 @@
         </div>
         <!--script type="text/javascript" src="cordova.js"></script-->
         <script type="text/javascript" src="js/index.js"></script>
-        <script>
+        <!--script>
             var signin = document.getElementById('signin'),
                 subscribe = document.getElementById('subscribe');
             signin.onclick = app.onSignin;
             subscribe.onclick = app.onSubscribe;
-        </script>
+        </script-->
     </body>
 </html>
