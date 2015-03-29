@@ -24,55 +24,15 @@ body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-    background-attachment:fixed;
-    font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
-    font-size:12px;
+    font:14px/22px 'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    letter-spacing:1px;
     height:100%;
-    margin:0px;
-    padding:0px;
-    text-transform:uppercase;
+    margin:0;
+    padding:0;
     width:100%;
 }
 
-/* Portrait layout (default) */
-.app {
-
-}
-
-/* Landscape layout (with min-width) */
-@media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
-    .app {
-        background-position:left center;
-    }
-}
-
-h1 {
-    font-size:24px;
-    font-weight:normal;
-    margin:0px;
-    overflow:visible;
-    padding:0px;
-    text-align:center;
-}
-
-.event {
-    border-radius:4px;
-    -webkit-border-radius:4px;
-    color:#FFFFFF;
-    font-size:12px;
-    margin:0px 30px;
-    padding:2px 0px;
-}
-
-.event.listening {
-    background-color:#333333;
-    display:block;
-}
-
-.event.received {
-    background-color:#4B946A;
-    display:none;
-}
+/* animation */
 
 @keyframes fade {
     from { opacity: 1.0; }
@@ -89,4 +49,51 @@ h1 {
 .blink {
     animation:fade 3000ms infinite;
     -webkit-animation:fade 3000ms infinite;
+}
+
+/* header */
+header {
+    margin:0;
+    padding:0;
+    color:#9D185E;
+}
+
+h1 {
+    margin:20px 0;
+    font-size:18px;
+    font-weight:200;
+    letter-spacing:4px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+p {
+    margin:0 0 20px 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul li {
+    list-style-type:none;
+}
+input[type='checkbox']{
+    margin:0 10px 0 0;
+}
+.logo {
+    width:200px;
+}
+.category {
+    text-transform: uppercase;
+}
+.screen {
+    max-width:400px;
+    margin-left:auto;
+    margin-right:auto;
+}
+/* Portrait layout (default) */
+.app {
+    position:relative;
+    padding:40px;
 }

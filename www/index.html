@@ -24,18 +24,57 @@
         <meta name="msapplication-tap-highlight" content="no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
         <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <title>Hello World</title>
+        <title>Engauge</title>
     </head>
     <body>
+        <header>
+            <h1><img class="logo" src="img/logo.png"></h1>
+        </header>
         <div class="app">
-            <h1>Hi, this will be lawlert</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Loading</p>
-                <p class="event received">Lawlert</p>
-            </div>
+            <!-- sign in screen -->
+            <section class="screen">
+                <p>Track and vote on legislation being introduced in your state, follow categories that interest you, and receive the latest bills sent to your committee and governor!</p>
+                <form class="pure-form">
+                    <fieldset class="pure-group">
+                        <input type="text" class="pure-input-1" placeholder="First Name">
+                        <input type="text" class="pure-input-1" placeholder="Last Name">
+                        <input type="email" class="pure-input-1" placeholder="Email">
+                        <input type="text" class="pure-input-1" placeholder="Password">
+                    </fieldset>
+                </form>
+                <a id='signin' href="#" class="pure-button pure-button-primary">Sign in</a>
+            </section>
+            <!-- end screen1 -->
+            <!-- subscribe to area, only applies to new users -->
+            <section class="screen">
+                <p>We will notify you when a new bill is posted in your areas of interest. Please select a few: </p>
+                <ul id="category-list" >
+                    <!-- populated by category JSON -->
+                </ul>
+                <a id="subscribe" href="#" class="pure-button pure-button-primary">Done</a>
+            </section>
+            <!-- end screen2 -->
+            <!-- load the entries to subscribed content -->
+            <section class="screen">
+                <ul class="bills">
+                    <!-- populated by the bill JSON -->
+                    <li>
+                        <h2>Name of the bill</h2>
+                        <p>Bill content</p>
+                    </li>
+                </ul>
+            </section>
+            <!-- end screen3 -->
         </div>
-        <script type="text/javascript" src="cordova.js"></script>
+        <!--script type="text/javascript" src="cordova.js"></script-->
         <script type="text/javascript" src="js/index.js"></script>
+        <script>
+            var signin = document.getElementById('signin'),
+                subscribe = document.getElementById('subscribe');
+            signin.onclick = app.onSignin;
+            subscribe.onclick = app.onSubscribe;
+        </script>
     </body>
 </html>
