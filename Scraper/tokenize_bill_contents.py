@@ -45,7 +45,7 @@ def grabMeasure(URL):
     import urllib
     import re
     grabbedLines = ''
-    prefixURL = "http://www.njleg.state.nj.us"
+    prefixURL = 'http://www.njleg.state.nj.us'
     URL = prefixURL + URL 
     numbersLink=urllib.urlopen(URL)
     rawHTMLbill = numbersLink.read()
