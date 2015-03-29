@@ -16,6 +16,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+// TODO router
 var app = {
     // Application Constructor
     initialize: function() {
@@ -45,6 +47,83 @@ var app = {
         receivedElement.setAttribute('style', 'display:block;');
 
         console.log('Received Event: ' + id);
+    },
+    changeScreen: function() {
+        // select the anchor clicked on
+        // go to the parent screen, fadeout
+        // go to the next screen, fadein
+    },
+    onSignin: function() {
+        // get category list from the server
+        var request = new XMLHttpRequest();
+        request.open('GET', '../temp-cat.json', true);
+
+        request.onload = function(error) {
+            if (request.status >= 200 && request.status < 400) {
+                // Success
+                var data = JSON.parse(request.responseText),
+                    categoryList = document.getElementById('category-list'),
+                    text, checkbox, item;
+
+                // populate buttons based on JSON
+                for (var i = 0; i < data.length; i ++) {
+                    // checkbox
+                    checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.value = data[i].id;
+
+                    // text
+                    text = document.createTextNode(data[i].name);
+
+                    // button
+                    item = document.createElement('li');
+                    item.className = 'category';
+                    item.id = data[i].name; // category name
+                    item.appendChild(checkbox);
+                    item.appendChild(text);
+
+                    // botton list
+                    categoryList.appendChild(item);
+                }
+
+            } else {
+                console.log(request.status);
+            }
+        };
+
+        request.onerror = function() {};
+
+        request.send();
+    },
+    onSubscribe: function() {
+        var inputs = document.getElementsByTagName('input'),
+            outputs = [];
+
+        // get the checked boxes
+        for (i = 0; i < inputs.length; i++) {
+
+            if (inputs[i].type === 'checkbox'){
+
+                var output = {};
+                output.id = inputs[i].value;
+
+                if (inputs[i].checked === true) {
+                    output.subscribed = 1
+                } else {
+                    output.subscribed = 0
+                }
+
+                outputs.push(output)
+            }
+
+        }
+
+        var request = new XMLHttpRequest();
+
+        request.open('POST', '/', true); // url will be replaced by the server ping
+
+        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+        request.send(outputs);
     }
 };
 
