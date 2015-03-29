@@ -1,8 +1,8 @@
 categories = {'EMERG MGMT': 'PUBLIC SAFETY - EMERGENCY MANAGEMENT',
               'HEALTH PROF': 'HEALTH - PROFESSIONALS',
-              'SCH FACILITI': 'EDUCATION - SCHOOL FACILITIES',
-              'PENSIONS TEA': 'PENSIONS - TEACHERS'}
+              'SCH FACILITI': 'EDUCATION - SCHOOL FACILITIES'}
 ''',
+              'PENSIONS TEA': 'PENSIONS - TEACHERS',
               'FISH': 'ENVIRONMENT - FISH AND WILDLIFE',
               'TEMP DISAB': 'LABOR - TEMPORARY DISABILITY',
               'HEALTH FAC': 'HEALTH - FACILITIES',
@@ -46,8 +46,7 @@ categories = {'EMERG MGMT': 'PUBLIC SAFETY - EMERGENCY MANAGEMENT',
               'EDUCATION': 'EDUCATION',
               'TRANSPORT': 'TRANSPORTATION'
             }
-            '''
-              
+'''
 
 #!/usr/bin/python
 import json
@@ -103,12 +102,14 @@ def getBillUrlLst(htmlList):
             idxofBeg = i.find("\"")+1
             idxofEnd = i.rfind("\"")
             tmp = i[idxofBeg:idxofEnd]
-            if tmp.endswith(".PDF") == False and firstHtml == True:
+            existsI = tmp.find("_I")
+            if tmp.endswith(".PDF") == False and existsI != -1:
                 billURLList.append(tmp)
                 firstHtml = False
                 continue
     return billURLList
 
+#include file to perform parsing HTML file
 execfile("tokenize_bill_contents.py")
 
 if __name__ == '__main__':
@@ -117,7 +118,7 @@ if __name__ == '__main__':
     
     categoryItems = categories.items()
     for c in categoryItems:
-        #print(c[0])
+        print(c[0])
         htmlLst = getCategoryHtml(c[0])
         billNumLst = getBillNumLst(htmlLst)
         cate = [c[1]]
@@ -126,9 +127,10 @@ if __name__ == '__main__':
             billHLst = getBillHtml(b)
             billUrlLst = getBillUrlLst(billHLst)
             totalBills.append(billUrlLst)
-
+    #Write data returned by grabMeasure into file to be parsed by php for DB
     with open("table_data.txt", "w") as f:
         for i in totalBills:
+            print(i)
             if  len(i)>0 and i[0].endswith(".HTM")== True:
                 tmpi = ''.join(i)
                 tmpLst = grabMeasure(tmpi)
