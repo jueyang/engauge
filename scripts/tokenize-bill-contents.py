@@ -1,10 +1,28 @@
-#
-#
-#
-#
+'''
+Bugs listed below
+billNumber, synopsis, sponsors, sponsorDistrict, statement, URL
+
+BillNumber actual output = "ASSEMBLY, No.3064"
+BillNumber Expected output = "3064"
+
+Synopsis actual output = "    &nbsp;    "
+Synopsis expected output = "Repeals anachronistic, superseded, or invalidated sections of statutory law."
+
+sponsor actual = 'Assemblyman VINCENT MAZZEO\r\n\r\n'
+sponsor expected = 'Assemblyman VINCENT MAZZEO'
+
+sponsorDistrict -> Correct
+
+statement -> Has unwanted strings like "&nbsp"
+
+URL -> Correct
+'''
 def stripSpecials(string2strip):
     import re
     string2strip = re.sub(r'(?ms)\xA0',r'',string2strip)         # crossbar characters
+    string2strip = re.sub(r'(?ms)\&nbsp.\ ',r' ',string2strip)         # crossbar characters
+    string2strip = re.sub(r'(?ms)&nbsp.\ ',r' ',string2strip)         # crossbar characters
+    string2strip = re.sub(r'(?ms)&nbsp.\s*',r' ',string2strip)         # crossbar characters
     return string2strip
 
 def stripClosingTag(string2strip):
@@ -14,7 +32,16 @@ def stripClosingTag(string2strip):
 
 def stripMostTags(string2strip):
     import re
-    string2strip = re.sub(r'(?ms)<.{1,129}>',r'',string2strip)   # other tags
+    string2strip = re.sub(r'(?ms)<[^>]{1,129}>',r'',string2strip)   # other tags
+    return string2strip
+
+def onlyNumber(string2strip):
+    import re
+    string2strip = re.sub(r'(?msi)SENATE\,',r'',string2strip)   # other tags
+    string2strip = re.sub(r'(?msi)ASSEMBLY\,',r'',string2strip)   # other tags
+    string2strip = re.sub(r'(?msi)No\.',r'',string2strip)   # other tags
+    string2strip = re.sub(r'(?ms)^[0-9]*',r'',string2strip)   # other tags
+    string2strip = re.sub(r'(?ms)\s*',r'',string2strip)   # other tags
     return string2strip
 
 def undoSoftWrap(string2unwrap):
@@ -30,8 +57,9 @@ def grabMeasure(URL):
     import urllib
     import re
     grabbedLines = ''
-    #prefixURL = 'http://www.njleg.state.nj.us/2014/Bills/'
-    #URL = prefixURL + URLsnip 
+    prefixURL = 'http://www.njleg.state.nj.us'
+    URL = prefixURL + URL 
+    #print "url = " + URL
     numbersLink=urllib.urlopen(URL)
     rawHTMLbill = numbersLink.read()
 
@@ -54,15 +82,14 @@ def grabMeasure(URL):
     synopsis = undoSoftWrap(synopsis)
 
     sponsors = re.sub(r'(?ms).*(<div class.Section2.*?<.div>).*',r'\1',sponsors)
-    sponsors = re.sub(r'(?ms).*?Sponsored by.*?bpuSponsor>(.*?)<.p>',r'\1',sponsors)
 
     sponsorDistrict = re.sub(r'(?ms).*(District \d*).*',r'\1',sponsors)
-    sponsors = re.sub(r'(?ms)(.*?)<p.*',r'\1',sponsors)
-    sponsors = stripSpecials(sponsors)
+    sponsors = re.sub(r'(?ms).*?Sponsored by.*?bpuSponsor>(.*?)<.p>.*',r'\1',sponsors)
 
     billNumber = re.sub(r'(?ms).*(<p.class.bpuBill.*?<.p>).*',r'\1',billNumber)
     billNumber = stripClosingTag(billNumber)
     billNumber = stripMostTags(billNumber)
+    billNumber = onlyNumber(billNumber)
 
     return billNumber, synopsis, sponsors, sponsorDistrict, statement, URL
 
