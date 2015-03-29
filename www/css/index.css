@@ -74,12 +74,21 @@ p {
 a {
     text-decoration: none;
 }
-
+ul {
+    margin:0;
+    padding:0;
+}
 ul li {
     list-style-type:none;
 }
 input[type='checkbox']{
     margin:0 10px 0 0;
+}
+header {
+    width:100%;
+    position:fixed;
+    background:#fff;
+    z-index:100;
 }
 .logo {
     width:200px;
@@ -91,9 +100,34 @@ input[type='checkbox']{
     max-width:400px;
     margin-left:auto;
     margin-right:auto;
+    margin-top:100px;
 }
 /* Portrait layout (default) */
 .app {
     position:relative;
     padding:40px;
+}
+/* bill */
+.bill {
+    background:#f6f6f6;
+    margin:20px 0 0;
+    padding:20px;
+}
+
+.bill span {
+    border-radius: 5px;
+    font-weight:200;
+    font-size:12px;
+    margin:0 0 0 10px;
+}
+
+.bill-category {
+    padding:2px;
+    border:1px solid #9D185E;
+    border-radius: 5px;
+}
+
+.bill-content {
+    background:#fff;
+    padding:10px;
 }
