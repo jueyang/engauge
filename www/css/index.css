@@ -24,7 +24,7 @@ body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-    font:14px/22px 'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    font:16px/24px 'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     letter-spacing:1px;
     height:100%;
     margin:0;
@@ -53,13 +53,12 @@ body {
 
 /* header */
 header {
-    margin:0;
     padding:0;
-    color:#9D185E;
+    color:#444;
 }
 
 h1 {
-    margin:20px 0;
+    margin:40px 0;
     font-size:18px;
     font-weight:200;
     letter-spacing:4px;
@@ -93,6 +92,10 @@ header {
 .logo {
     width:200px;
 }
+.intro {
+    padding:40px;
+    background:#f2f2f2;
+}
 .category {
     text-transform: uppercase;
 }
@@ -100,7 +103,7 @@ header {
     max-width:400px;
     margin-left:auto;
     margin-right:auto;
-    margin-top:100px;
+    margin-top:40px;
 }
 /* Portrait layout (default) */
 .app {
