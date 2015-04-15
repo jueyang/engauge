@@ -1,7 +1,6 @@
 categories = {'EMERG MGMT': 'PUBLIC SAFETY - EMERGENCY MANAGEMENT',
               'HEALTH PROF': 'HEALTH - PROFESSIONALS',
-              'SCH FACILITI': 'EDUCATION - SCHOOL FACILITIES'}
-''',
+              'SCH FACILITI': 'EDUCATION - SCHOOL FACILITIES',
               'PENSIONS TEA': 'PENSIONS - TEACHERS',
               'FISH': 'ENVIRONMENT - FISH AND WILDLIFE',
               'TEMP DISAB': 'LABOR - TEMPORARY DISABILITY',
@@ -44,11 +43,10 @@ categories = {'EMERG MGMT': 'PUBLIC SAFETY - EMERGENCY MANAGEMENT',
               'PENSIONS PUB': 'PENSIONS - PUBLIC EMPLOYEES', 'HEALTH': 'HEALTH', 'PAAD': 'HEALTH - PAAD AND SENIOR GOLD',
               'PUBLIC TRANS': 'TRANSPORTATION - PUBLIC TRANSIT', 'WAGES': 'LABOR - WAGES AND BENEFITS',
               'EDUCATION': 'EDUCATION',
-              'TRANSPORT': 'TRANSPORTATION'
-            }
-'''
+              'TRANSPORT': 'TRANSPORTATION'}
 
 #!/usr/bin/python
+import MySQLdb
 import json
 import urllib
 import urllib2
@@ -94,49 +92,56 @@ def getBillHtml(billNum):
     return htmlLst
 
 def getBillUrlLst(htmlList):
-    billURLList = []
-    firstHtml = True
+    billURLList = []        
     for i in htmlList:
         exists = i.find("/2014/Bills/")
         if exists != -1:
             idxofBeg = i.find("\"")+1
             idxofEnd = i.rfind("\"")
             tmp = i[idxofBeg:idxofEnd]
-            existsI = tmp.find("_I")
-            if tmp.endswith(".PDF") == False and existsI != -1:
+            if tmp.endswith(".PDF") == False:
                 billURLList.append(tmp)
-                firstHtml = False
-                continue
     return billURLList
 
-#include file to perform parsing HTML file
 execfile("tokenize_bill_contents.py")
 
 if __name__ == '__main__':
+    
     #total bills for that category
     totalBills = []
-    
+    '''
     categoryItems = categories.items()
     for c in categoryItems:
         print(c[0])
         htmlLst = getCategoryHtml(c[0])
         billNumLst = getBillNumLst(htmlLst)
-        cate = [c[1]]
-        totalBills.append(cate)
         for b in billNumLst:
             billHLst = getBillHtml(b)
             billUrlLst = getBillUrlLst(billHLst)
             totalBills.append(billUrlLst)
-    #Write data returned by grabMeasure into file to be parsed by php for DB
-    with open("table_data.txt", "w") as f:
+    '''
+    totalBills.append("/2014/Bills/A0500/232_I1.HTM")
+    totalBills.append("/2014/Bills/A0500/134_I1.HTM")
+    cat = [9,6]
+    
+    with open("table_data.html", "w") as f:
+        count = 0
         for i in totalBills:
-            print(i)
-            if  len(i)>0 and i[0].endswith(".HTM")== True:
-                tmpi = ''.join(i)
-                tmpLst = grabMeasure(tmpi)
-                Str1 = '---'.join(tmpLst)
-                f.write(Str1+"\n")
-            else:
-                tmpi = ''.join(i)
-                f.write(tmpi+"\n")   
+            tmpi = str(i)
+            tmpLst = grabMeasure(tmpi)
+            db = MySQLdb.connect(
+            host="localhost", # your host, usually localhost
+            user="root", # your username
+            passwd="", # your password
+            db="HackJersey") # name of the data base
+            # you must create a Cursor object. It will let
+            #  you execute all the queries you need
+            cur = db.cursor() 
+            # Use all the SQL you like
+            cur.execute("INSERT INTO `Bill`(`B_ID`,`billNumber`,`billName`,`synopsis`,`link`,`primarySponsor`,`categoryID`,`sponsorDistrict`)Values (null,'"+tmpLst[0]+"','"+tmpLst[1]+"','"+tmpLst[5]+"','"+str(cat[count])+"','"+tmpLst[3]+"')")
+            count = count +1
+            Str1 = '-'.join(tmpLst)
+            f.write(Str1)
+
+    
     
